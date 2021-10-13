@@ -1,0 +1,110 @@
+\qecho Interpreter Scheduler Schema
+\qecho
+
+CREATE DATABASE interpreterscheduler;
+\qecho
+
+\c scheduler
+\qecho
+
+CREATE TABLE LocationType 	(
+	ID			SERIAL		not null,
+	Description		VARCHAR(30)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE State		(
+	ID			VARCHAR(2)	not null,
+	Description		VARCHAR(15)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE County		(
+	ID			VARCHAR(3)	not null,
+	Description		VARCHAR(20)	not null,
+	
+	Primary Key		(ID)
+);
+
+CREATE TABLE Address		(
+	ID			SERIAL		not null,
+	LocationType		INTEGER		not null,
+	Street			VARCHAR(25)	not null,
+	Street2			VARCHAR(25)	,
+	City			VARCHAR(20)	not null,
+	State			VARCHAR(2)	not null,
+	County			Varchar(3)	not null,
+
+	Primary Key		(ID),
+	Foreign Key		(Type) references LocationType(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(State) references State(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(County) references County(ID)
+				Deferrable Initially Deferred
+);
+
+CREATE TABLE JobCreator		(
+	ID			SERIAL		not null,
+	FirstName		VARCHAR(20)	not null,
+	MiddleName		VARCHAR(20)	,
+	LastName		VARCHAR(20)	not null,
+	PhoneNumber		VARCHAR(11)	not null,
+	Email			VARCHAR(40)	not null unique,
+	Username		VARCHAR(20)	not null unique,
+	Password		VARCHAR(20)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE SavedLocations	(
+	JobCreatorID		INTEGER		not null,
+	AddressID		INTEGER		not null,
+
+	Primary Key		(JobCreatorID, AddressID),
+	Foreign Key		(JobCreatorID) references JobCreator(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(AddressID) references Address(ID)
+				Deferrable Inititally Deferred
+);
+
+CREATE TABLE Payer		(
+	ID			SERIAL		not null,
+	Description		VARCHAR(20)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE Language		(
+	ID			VARCHAR(2)	not null,
+	Description		VARCHAR(20)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE Job		(
+	ID			SERIAL		not null,
+	WorkOrderID		INTEGER		,
+	JobNumber		SERIAL		not null,
+	PostingTime		TIMESTAMP	not null,
+	Address			INTEGER		not null,
+	LEPNumber		INTEGER		not null,
+	ClaimNumber		INTEGER		not null,
+	PayerID			INTEGER		not null,
+	Language		INTEGER		not null,
+	ServiceDate		DATE		not null,
+	CheckInTime		DATE		not null,
+	StartTime		TIME		not null,
+	EndTime			TIME		not null,
+
+	Primary Key		(ID),
+	Foreign Key		(Address) references Address(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(PayerID) references Payer(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(Language) references Language(ID)
+				Deferrable Initially Deferred
+);
+	
