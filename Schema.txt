@@ -1,7 +1,7 @@
 \qecho Interpreter Scheduler Schema
 \qecho
 
-CREATE DATABASE interpreterscheduler;
+CREATE DATABASE scheduler;
 \qecho
 
 \c scheduler
@@ -38,7 +38,7 @@ CREATE TABLE Address		(
 	County			Varchar(3)	not null,
 
 	Primary Key		(ID),
-	Foreign Key		(Type) references LocationType(ID)
+	Foreign Key		(LocationType) references LocationType(ID)
 				Deferrable Initially Deferred,
 	Foreign Key		(State) references State(ID)
 				Deferrable Initially Deferred,
@@ -67,7 +67,7 @@ CREATE TABLE SavedLocations	(
 	Foreign Key		(JobCreatorID) references JobCreator(ID)
 				Deferrable Initially Deferred,
 	Foreign Key		(AddressID) references Address(ID)
-				Deferrable Inititally Deferred
+				Deferrable Initially Deferred
 );
 
 CREATE TABLE Payer		(
@@ -93,7 +93,7 @@ CREATE TABLE Job		(
 	LEPNumber		INTEGER		not null,
 	ClaimNumber		INTEGER		not null,
 	PayerID			INTEGER		not null,
-	Language		INTEGER		not null,
+	Language		VARCHAR(2)	not null,
 	ServiceDate		DATE		not null,
 	CheckInTime		DATE		not null,
 	StartTime		TIME		not null,
@@ -108,3 +108,37 @@ CREATE TABLE Job		(
 				Deferrable Initially Deferred
 );
 	
+\d
+\qecho
+
+\qecho LocationType
+\d LoationType
+
+\qecho State
+\d State
+
+\qecho County
+\d County
+
+\qecho Address
+\d Address
+
+\qecho JobCreator
+\d JobCreator
+
+\qecho SavedLocations
+\d SavedLocations
+
+\qecho Payer
+\d Payer
+
+\qecho Language
+\d Language
+
+\qecho Job
+\d Job
+
+--DROP DATABASE scheduler;
+
+
+
