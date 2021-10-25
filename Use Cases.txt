@@ -1,0 +1,4 @@
+User attempts to create a new account but uses a username/email that already exists
+
+User wants to go back to a previous screen
+
