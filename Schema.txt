@@ -1,7 +1,7 @@
 \qecho Interpreter Scheduler Schema
 \qecho
 
-CREATE DATABASE scheduler;
+--CREATE DATABASE scheduler;
 \qecho
 
 \c scheduler
@@ -180,7 +180,7 @@ CREATE TABLE PostedInvoices	(
 \qecho
 
 \qecho LocationType
-\d LoationType
+\d LocationType
 
 \qecho State
 \d State
