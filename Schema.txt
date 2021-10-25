@@ -107,6 +107,74 @@ CREATE TABLE Job		(
 	Foreign Key		(Language) references Language(ID)
 				Deferrable Initially Deferred
 );
+
+CREATE TABLE WorkOrderStatus	(
+	ID			SERIAL		not null,
+	Description		VARCHAR(30)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE InvoiceStatus	(
+	ID			SERIAL		not null,
+	Description		VARCHAR(30)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE Interpreter	(
+	ID			SERIAL		not null,
+	FirstName		VARCHAR(20)	not null,
+	MiddleName		VARCHAR(20)	,
+	LastName		VARCHAR(20)	not null,
+	InterpreterID		INTEGER		not null unique,
+	PhoneNumber		VARCHAR(11)	not null,
+	Email			VARCHAR(40)	not null unique,
+	Username		VARCHAR(20)	not null unique,
+	Password		VARCHAR(20)	not null,
+
+	Primary Key		(ID)
+);
+
+CREATE TABLE Invoice		(
+	ID			SERIAL		not null,
+	Payrate			INTEGER		not null,
+	UnitsWorked		INTEGER		not null,
+	ServiceAmount		INTEGER		not null,
+	MilesTraveled		INTEGER		,
+	TravelExpenses		INTEGER		,
+	StatusID		INTEGER		not null,
+
+	Primary Key		(ID),
+	Foreign Key		(StatusID) references InvoiceStatus(ID)
+				Deferrable Initially Deferred
+);
+
+CREATE TABLE WorkOrder		(
+	ID			SERIAL		not null,
+	CheckedInTime		TIME		,
+	ActualStart		TIME		,
+	ActualEnd		TIME		,
+	InvoiceID		INTEGER		,
+	StatusID		INTEGER		not null,
+
+	Primary Key		(ID),
+	Foreign Key		(InvoiceID) references Invoice(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(StatusID) references WorkOrderStatus(ID)
+				Deferrable Initially Deferred
+);
+
+CREATE TABLE PostedInvoices	(
+	InterpreterID		INTEGER		not null,
+	WorkOrderID		INTEGER		not null,
+
+	Primary Key		(InterpreterID, WorkOrderID),
+	Foreign Key		(InterpreterID) references Interpreter(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(WorkOrderID) references WorkOrder(ID)
+				Deferrable Initially Deferred
+);
 	
 \d
 \qecho
@@ -137,6 +205,24 @@ CREATE TABLE Job		(
 
 \qecho Job
 \d Job
+
+\qecho WorkOrderStatus
+\d WorkOrderStatus
+
+\qecho InvoiceSatus
+\d InvoiceStatus
+
+\qecho Interpreter
+\d Interpreter
+
+\qecho Invoice
+\d Invoice
+
+\qecho WorkOrder
+\d WorkOrder
+
+\qecho PostedInvoices
+\d PostedInvoices
 
 --DROP DATABASE scheduler;
 
