@@ -1,0 +1,10 @@
+\qecho Adding Data....
+
+ALTER SEQUENCE interpreter_id_seq RESTART WITH 1;
+
+INSERT INTO interpreter (FirstName, LastName, InterpreterID, PhoneNumber, Email, Username, Password)
+VALUES ('Test', 'User', 12345, '1234567890', 'test@user.com', 'testuser', 'Abc123');
+
+SELECT * FROM Interpreter;
+
+--DELETE FROM Interpreter;

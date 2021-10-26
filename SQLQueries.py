@@ -10,3 +10,25 @@ def create_connection():
 
 def close_connection(current_connection):
     current_connection.close()
+
+def check_for_interpreter_username(database_cursor, username):
+    command = "SELECT username FROM Interpreter WHERE username LIKE %s;"
+    database_cursor.execute(command, (username,))
+    rows = database_cursor.fetchall()
+    if(len(rows) == 0):
+        print("I don't exist")
+        return False
+    else:
+        print("I exist!")
+        return True
+
+def check_for_interpreter_email(database_cursor, email):
+    command = "SELECT email FROM Interpreter WHERE email LIKE %s;"
+    database_cursor.execute(command, (email,))
+    rows = database_cursor.fetchall()
+    if(len(rows) == 0):
+        print("I don't exist")
+        return False
+    else:
+        print("I exist!")
+        return True
