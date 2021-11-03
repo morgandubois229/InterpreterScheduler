@@ -35,7 +35,8 @@ CREATE TABLE Address		(
 	Street2			VARCHAR(25)	,
 	City			VARCHAR(20)	not null,
 	State			VARCHAR(2)	not null,
-	County			Varchar(3)	not null,
+	County			VARCHAR(3)	not null,
+	Zipcode			VARCHAR(5)	not null,
 
 	Primary Key		(ID),
 	Foreign Key		(LocationType) references LocationType(ID)
@@ -95,9 +96,11 @@ CREATE TABLE Job		(
 	PayerID			INTEGER		not null,
 	Language		VARCHAR(2)	not null,
 	ServiceDate		DATE		not null,
-	CheckInTime		DATE		not null,
+	CheckInTime		TIME		not null,
 	StartTime		TIME		not null,
 	EndTime			TIME		not null,
+	PriorityLevel		INTEGER		not null,
+	Description		VARCHAR(400)	not null,
 
 	Primary Key		(ID),
 	Foreign Key		(Address) references Address(ID)
@@ -105,6 +108,17 @@ CREATE TABLE Job		(
 	Foreign Key		(PayerID) references Payer(ID)
 				Deferrable Initially Deferred,
 	Foreign Key		(Language) references Language(ID)
+				Deferrable Initially Deferred
+);
+
+CREATE TABLE PostedJobs		(
+	JobCreatorID		INTEGER		not null,
+	JobID			INTEGER		not null,
+
+	Primary Key		(JobCreatorID, JobID),
+	Foreign Key		(JobCreatorID) references JobCreator(ID)
+				Deferrable Initially Deferred,
+	Foreign Key		(JobID) references Job(ID)
 				Deferrable Initially Deferred
 );
 
@@ -165,7 +179,7 @@ CREATE TABLE WorkOrder		(
 				Deferrable Initially Deferred
 );
 
-CREATE TABLE PostedInvoices	(
+CREATE TABLE TakenWorkOrders	(
 	InterpreterID		INTEGER		not null,
 	WorkOrderID		INTEGER		not null,
 
@@ -221,7 +235,7 @@ CREATE TABLE PostedInvoices	(
 \qecho WorkOrder
 \d WorkOrder
 
-\qecho PostedInvoices
+\qecho TakenWorkOrders
 \d PostedInvoices
 
 --DROP DATABASE scheduler;

@@ -1,10 +1,40 @@
 \qecho Adding Data....
 
 ALTER SEQUENCE interpreter_id_seq RESTART WITH 1;
+ALTER SEQUENCE locationtype_id_seq RESTART WITH 1;
+ALTER SEQUENCE payer_id_seq RESTART WITH 1;
 
 INSERT INTO interpreter (FirstName, LastName, InterpreterID, PhoneNumber, Email, Username, Password)
 VALUES ('Test', 'User', 12345, '1234567890', 'test@user.com', 'testuser', 'Abc123');
 
 SELECT * FROM Interpreter;
+
+INSERT INTO County (ID, Description)
+VALUES ('033', 'King');
+
+SELECT * FROM County;
+
+INSERT INTO State (ID, Description)
+VALUES ('WA', 'Washington');
+
+SELECT * FROM State;
+
+INSERT INTO LocationType (Description)
+VALUES ('Hospital');
+
+INSERT INTO LocationType (Description)
+VALUES ('Court');
+
+SELECT * FROM LocationType;
+
+INSERT INTO Language (ID, Description)
+VALUES ('es', 'Spanish');
+
+SELECT * FROM Language;
+
+INSERT INTO Payer (Description)
+VALUES ('Washington State L&I');
+
+SELECT * FROM Payer
 
 --DELETE FROM Interpreter;
